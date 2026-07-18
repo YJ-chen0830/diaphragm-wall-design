@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>懸臂式地下連續牆入土深度設計 | Cantilever Diaphragm Wall Embedment</title>
+<script src="https://yj-chen0830.github.io/jrh-core/jrh-core.js?v=3" defer></script>
+<style>
+  :root{--navy:#0b1f3a;--navy2:#13284a;--gold:#c9a14a;--gold2:#e0bf6e;--bg:#f5f3ee;--ink:#1c2530;--line:#d8d2c2;}
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:"Noto Sans TC","Segoe UI",sans-serif;background:var(--bg);color:var(--ink);}
+  header{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#f5f3ee;padding:28px 32px;}
+  header h1{margin:0;font-size:22px;}
+  header span{color:var(--gold2);font-size:13px;display:block;margin-top:4px;}
+  main{max-width:1060px;margin:0 auto;padding:28px 20px 60px;}
+  .grid{display:grid;grid-template-columns:340px 1fr;gap:24px;}
+  @media(max-width:820px){.grid{grid-template-columns:1fr;}}
+  .card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:22px 24px;box-shadow:0 2px 8px rgba(0,0,0,.05);}
+  .card h2{font-size:14.5px;margin:0 0 18px;color:var(--navy);font-weight:700;display:flex;align-items:center;gap:8px;border-bottom:2px solid var(--gold);padding-bottom:10px;}
+  label{display:block;font-size:12px;color:#666;margin:10px 0 4px;font-weight:500;}
+  input,select{width:100%;padding:8px 11px;border:1.5px solid var(--line);border-radius:7px;font-size:13.5px;background:#fafaf8;}
+  input:focus,select:focus{outline:none;border-color:var(--gold);}
+  .sec{font-size:12px;font-weight:700;color:var(--navy);margin:16px 0 6px;border-left:4px solid var(--gold);padding-left:9px;letter-spacing:.04em;text-transform:uppercase;}
+  .note{font-size:11.5px;color:#999;margin-top:12px;line-height:1.75;background:#f9f7f2;border-radius:6px;padding:9px 12px;}
+  button.calc-btn{margin-top:16px;width:100%;padding:12px;border:none;border-radius:8px;background:var(--navy);color:#fff;font-size:14.5px;font-weight:700;cursor:pointer;}
+  button.calc-btn:hover{background:var(--navy2);}
+  button.pro-btn{margin-top:12px;width:100%;padding:12px;border:none;border-radius:8px;background:var(--gold);color:var(--navy);font-size:14.5px;font-weight:700;cursor:pointer;}
+  button.pro-btn:hover{filter:brightness(1.08);}
+  table{width:100%;border-collapse:collapse;margin-top:10px;border:1px solid var(--line);border-radius:8px;overflow:hidden;}
+  th{background:var(--navy);color:#f5f3ee;font-weight:600;font-size:12px;padding:9px 10px;text-align:left;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  td{padding:9px 10px;font-size:13px;border-bottom:1px solid var(--line);}
+  tr:nth-child(even) td{background:#f9f7f3;}
+  td:last-child{text-align:right;font-weight:700;}
+  .ok{color:#1a7d3a;font-weight:700;}
+  .ng{color:#c0392b;font-weight:700;}
+  details.proc{margin-top:16px;border:1px solid var(--line);border-radius:8px;background:#fafaf8;overflow:hidden;}
+  details.proc summary{cursor:pointer;padding:10px 14px;font-weight:700;font-size:13px;color:var(--navy);user-select:none;list-style:none;display:flex;align-items:center;gap:6px;}
+  details.proc summary::before{content:"▶";font-size:10px;transition:transform .2s;}
+  details[open].proc summary::before{transform:rotate(90deg);}
+  details.proc pre{margin:0;padding:12px 16px 16px;font-family:"Courier New",monospace;font-size:11.5px;line-height:1.9;white-space:pre-wrap;color:#2c3e50;border-top:1px solid var(--line);}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .proj-section{background:#fff;border:1px solid var(--gold);border-radius:10px;padding:18px 22px;margin-bottom:20px;}
+  .proj-section h3{margin:0 0 12px;color:var(--navy);font-size:14px;font-weight:700;}
+  .proj-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  @media(max-width:600px){.proj-grid{grid-template-columns:1fr;}}
+  .mob-tabs{display:none;}
+  @media screen and (max-width:767px){
+    .mob-tabs{display:flex;background:var(--bg);border-bottom:2px solid var(--line);margin:0 -20px 0;padding:0 20px;}
+    .mob-tab{flex:1;padding:11px 4px;text-align:center;font-size:13.5px;font-weight:700;color:#888;cursor:pointer;background:transparent;border:none;border-bottom:3px solid transparent;}
+    .mob-tab.active{color:var(--navy);border-bottom-color:var(--gold);}
+    .grid{display:block;}
+    .grid>.card{display:none;}
+    .grid>.card.mob-active{display:block;}
+  }
+  @media print{
+    header,.no-print{display:none!important;}
+    body{background:#fff;margin:0;font-size:9pt;line-height:1.5;color:#111;}
+    main{padding:0;max-width:100%!important;}
+    .grid{grid-template-columns:1fr!important;gap:10pt!important;}
+    .card{box-shadow:none!important;border:1px solid #ccc!important;border-radius:4pt!important;padding:10pt 12pt!important;break-inside:avoid;}
+    .card h2{font-size:10.5pt!important;padding-bottom:6pt!important;margin-bottom:9pt!important;}
+    label{font-size:8pt!important;margin:6pt 0 2pt!important;}
+    .sec{font-size:8pt!important;margin:10pt 0 4pt!important;}
+    .note{font-size:7.5pt!important;padding:6pt 9pt!important;}
+    table{border:1px solid #bbb!important;border-radius:0!important;margin-top:6pt!important;}
+    th{font-size:8pt!important;padding:5pt 7pt!important;background:#0b1f3a!important;color:#fff!important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+    td{font-size:8.5pt!important;padding:5pt 7pt!important;}
+    tr:nth-child(even) td{background:#f5f5f5!important;}
+    details.proc{display:block!important;margin-top:10pt!important;border:1pt solid #0b1f3a!important;border-radius:4pt!important;break-inside:avoid;background:#f9f9f6!important;}
+    details.proc>summary{display:none!important;}
+    details.proc::before{content:"📋  計算過程（供第三方檢核）";display:block;font-weight:700;font-size:8pt;color:#0b1f3a;padding:6pt 10pt 4pt;border-bottom:1px solid #ccc;letter-spacing:.04em;}
+    details.proc>pre{font-size:7pt!important;line-height:1.65!important;white-space:pre-wrap!important;padding:6pt 10pt 10pt!important;color:#1a1a1a!important;font-family:"Courier New",monospace!important;}
+    .proj-section{border:1.5pt solid #0b1f3a!important;border-radius:4pt!important;}
+    button.pro-btn,button.calc-btn{display:none!important;}
+    @page{margin:15mm 12mm;size:A4;}
+  }
+</style>
+</head>
+<body data-tool="dwd">
+<header>
+  <a href="https://yj-chen0830.github.io/engineering-hub/" style="color:var(--gold2);font-size:12.5px;text-decoration:none;display:inline-block;margin-bottom:8px;">← 返回工程計算中心</a>
+  <h1>🧱 懸臂式連續壁入土深度設計</h1>
+  <span>Rankine 主動/被動土壓 · 淨壓力法 Net Pressure Method · 單層無支撐懸臂開挖</span>
+</header>
+<main>
+
+<div class="proj-section no-print" id="projSection">
+  <h3>📁 專案資訊（列印時帶入計算書封面）</h3>
+  <div class="proj-grid">
+    <div><label>工程名稱</label><input id="pj-name" placeholder="○○工程"></div>
+    <div><label>工程地點</label><input id="pj-loc" placeholder="○○市○○區"></div>
+    <div><label>承造廠商</label><input id="pj-contractor" placeholder="○○營造股份有限公司"></div>
+    <div><label>文件編號</label><input id="pj-docno" placeholder="DWD-CAL-001"></div>
+    <div><label>計算者</label><input id="pj-calc" placeholder="姓名"></div>
+    <div><label>審核者</label><input id="pj-review" placeholder="姓名"></div>
+    <div><label>計算日期</label><input id="pj-date" type="date"></div>
+  </div>
+</div>
+
+<div class="mob-tabs">
+  <button class="mob-tab active" onclick="switchMobTab('dwd-in',this)">📋 輸入參數</button>
+  <button class="mob-tab" id="mobTab-dwd-r" onclick="switchMobTab('dwd-r',this)">📊 計算結果</button>
+</div>
+
+<div class="grid">
+  <div class="card mob-active" data-tab="dwd-in">
+    <h2>輸入條件</h2>
+    <div class="sec">基本設計參數</div>
+    <div class="row2">
+      <div><label>開挖深度 H (m)</label><input id="dwd-H" type="number" value="8" step="0.1" min="0.5"></div>
+      <div><label>土壤單位重 γ (kN/m³)</label><input id="dwd-gamma" type="number" value="18" step="0.1" min="1"></div>
+    </div>
+    <div class="row2">
+      <div><label>有效摩擦角 φ' (°)</label><input id="dwd-phi" type="number" value="30" step="0.1" min="0.1" max="50"></div>
+      <div><label>地表超載 q (kPa)</label><input id="dwd-q" type="number" value="10" step="0.1" min="0"></div>
+    </div>
+    <div class="row2">
+      <div><label>入土深度安全係數 FS<sub>D</sub></label><input id="dwd-fs" type="number" value="1.2" step="0.05" min="1.0" max="2.0"></div>
+      <div><label>數值解容許誤差 (m)</label><input id="dwd-tol" type="number" value="0.0001" step="0.0001" min="0.00001"></div>
+    </div>
+
+    <div class="sec">地下水簡化修正</div>
+    <label>水壓處理方式</label>
+    <select id="dwd-water-mode" onchange="toggleWaterFields()">
+      <option value="ignore">開挖面以下忽略水壓（預設）</option>
+      <option value="simple">輸入保留側地下水位，僅對開挖面以上加簡化水壓</option>
+    </select>
+    <div id="dwd-water-box" style="display:none">
+      <div class="row2">
+        <div><label>保留側地下水位深度 z<sub>w</sub> (m，自地表下)</label><input id="dwd-zw" type="number" value="3" step="0.1" min="0"></div>
+        <div><label>水單位重 γ<sub>w</sub> (kN/m³)</label><input id="dwd-gammaw" type="number" value="9.81" step="0.01" min="0"></div>
+      </div>
+    </div>
+
+    <button class="calc-btn" onclick="calcDWD()">計算入土深度與最大彎矩</button>
+    <div class="note">
+      採相同土層之 Rankine 主動/被動土壓，使用懸臂式單層無支撐開挖的淨壓力法。
+      以牆趾取矩求理論最小入土深度 D，再乘使用者指定安全係數得設計入土深度。
+      簡化地下水模式僅對開挖面以上之保留側水壓加算；開挖面以下淨水壓不另計，正式設計仍應由大地工程師依降排水條件複核。
+    </div>
+  </div>
+
+  <div class="card" data-tab="dwd-r">
+    <h2>計算結果</h2>
+    <div id="dwd-result"><p style="color:#888">尚未計算</p></div>
+    <details class="proc" id="dwd-proc" style="display:none">
+      <summary>📋 計算過程（供第三方檢核）</summary>
+      <pre id="dwd-proc-text"></pre>
+    </details>
+    <button class="pro-btn no-print" onclick="openPro()">📄 產出計算書 PDF</button>
+  </div>
+</div>
+
+</main>
+<script>
+function switchMobTab(name,btn){
+  btn.parentElement.querySelectorAll('.mob-tab').forEach(function(t){t.classList.remove('active');});
+  btn.classList.add('active');
+  btn.parentElement.nextElementSibling.querySelectorAll('.card').forEach(function(c){
+    c.classList.toggle('mob-active',c.dataset.tab===name);
+  });
+}
+function openPro(){ JRH.checkEmail(function(){ jrhPrint('懸臂式地下連續牆(擋土牆)入土深度設計計算書'); }); }
+function v(id){return parseFloat(document.getElementById(id).value)||0;}
+function f1(x){return Number(x).toFixed(1);}
+function f2(x){return Number(x).toFixed(2);}
+function f3(x){return Number(x).toFixed(3);}
+function f4(x){return Number(x).toFixed(4);}
+function deg2rad(d){return d*Math.PI/180;}
+function toggleWaterFields(){
+  document.getElementById('dwd-water-box').style.display =
+    document.getElementById('dwd-water-mode').value==='simple' ? '' : 'none';
+}
+
+function solveBisection(fn,lo,hi,tol,maxIter){
+  var fLo=fn(lo), fHi=fn(hi), iter=[], mid=0, fMid=0, i;
+  if (fLo===0) return {root:lo,iter:[{i:0,lo:lo,hi:hi,mid:lo,fmid:fLo}]};
+  if (fHi===0) return {root:hi,iter:[{i:0,lo:lo,hi:hi,mid:hi,fmid:fHi}]};
+  if (fLo*fHi>0) return null;
+  for(i=1;i<=maxIter;i++){
+    mid=(lo+hi)/2;
+    fMid=fn(mid);
+    iter.push({i:i,lo:lo,hi:hi,mid:mid,fmid:fMid});
+    if(Math.abs(fMid)<1e-10 || (hi-lo)/2<tol) break;
+    if(fLo*fMid<0){
+      hi=mid;
+      fHi=fMid;
+    }else{
+      lo=mid;
+      fLo=fMid;
+    }
+  }
+  return {root:mid,iter:iter};
+}
+
+function calcDWD(){
+  var H=v('dwd-H');
+  var gamma=v('dwd-gamma');
+  var phi=v('dwd-phi');
+  var q=v('dwd-q');
+  var fs=v('dwd-fs');
+  var tol=v('dwd-tol');
+  var waterMode=document.getElementById('dwd-water-mode').value;
+  var zw=v('dwd-zw');
+  var gammaW=v('dwd-gammaw');
+
+  if(H<=0 || gamma<=0 || phi<=0){
+    alert('請確認 H、γ、φ 均大於 0。');
+    return;
+  }
+
+  var Ka=Math.pow(Math.tan(deg2rad(45-phi/2)),2);
+  var Kp=Math.pow(Math.tan(deg2rad(45+phi/2)),2);
+  var deltaGamma=(Kp-Ka)*gamma;
+
+  if(deltaGamma<=0){
+    alert('Kp 必須大於 Ka，請檢查摩擦角輸入。');
+    return;
+  }
+
+  var hw=0, Pw=0, Mw=0;
+  if(waterMode==='simple' && zw<H){
+    hw=H-zw;
+    Pw=0.5*gammaW*hw*hw;
+    Mw=Pw*(hw/3);
+  }
+
+  var Ptri=0.5*Ka*gamma*H*H;
+  var Psur=Ka*q*H;
+  var Ptop=Ptri+Psur+Pw;
+  var p0=Ka*(gamma*H+q);
+  var m=-deltaGamma;
+
+  function toeMoment(D){
+    return Ptri*(D+H/3)+Psur*(D+H/2)+Pw*(D+hw/3)+p0*D*D/2+m*D*D*D/6;
+  }
+
+  var zZero=p0/deltaGamma;
+  var lo=Math.max(0.01,zZero*1.0001);
+  var hi=Math.max(H,lo*1.5);
+  var fLo=toeMoment(lo);
+  var fHi=toeMoment(hi);
+  var expandCount=0;
+  while(fLo*fHi>0 && expandCount<40){
+    hi*=1.35;
+    fHi=toeMoment(hi);
+    expandCount++;
+  }
+  if(fLo*fHi>0){
+    alert('找不到入土深度解，請檢查輸入條件。');
+    return;
+  }
+
+  var solved=solveBisection(toeMoment,lo,hi,tol,80);
+  var D=solved.root;
+  var Ddesign=D*fs;
+  var pToe=p0+m*D;
+
+  var VH=Ptop;
+  var MH=Ptri*H/3 + Psur*H/2 + (Pw>0 ? Pw*hw/3 : 0);
+  var qa=0.5*m;
+  var qb=p0;
+  var qc=VH;
+  var disc=qb*qb-4*qa*qc;
+  var zV=NaN;
+  if(disc>=0){
+    var r1=(-qb+Math.sqrt(disc))/(2*qa);
+    var r2=(-qb-Math.sqrt(disc))/(2*qa);
+    [r1,r2].forEach(function(r){
+      if(r>0 && r<D && !isFinite(zV)) zV=r;
+    });
+  }
+  if(!isFinite(zV)){
+    zV=Math.min(D,Math.max(0,zZero));
+  }
+  var Mmax=MH + VH*zV + 0.5*p0*zV*zV + m*zV*zV*zV/6;
+  var xMmax=H+zV;
+
+  var status=fs>=1.2 ? '<span class="ok">常用範圍內</span>' : '<span class="ng">低於常用 1.2</span>';
+  var waterText=waterMode==='simple'
+    ? ('保留側地下水位 z<sub>w</sub> = '+f2(zw)+' m，開挖面以上等效水高 h<sub>w</sub> = '+f2(hw)+' m')
+    : '開挖面以下忽略水壓';
+
+  document.getElementById('dwd-result').innerHTML =
+    '<table><tr><th>項目</th><th>數值</th></tr>'+
+    '<tr><td>主動土壓係數 K<sub>a</sub></td><td>'+f3(Ka)+'</td></tr>'+
+    '<tr><td>被動土壓係數 K<sub>p</sub></td><td>'+f3(Kp)+'</td></tr>'+
+    '<tr><td>開挖面處淨壓力 p<sub>0</sub></td><td>'+f2(p0)+' kPa</td></tr>'+
+    '<tr><td>淨壓力零點深度 z<sub>0</sub></td><td>'+f3(zZero)+' m</td></tr>'+
+    '<tr><td>理論最小入土深度 D</td><td>'+f3(D)+' m</td></tr>'+
+    '<tr><td>設計入土深度 D<sub>design</sub> = D × FS<sub>D</sub></td><td>'+f3(Ddesign)+' m '+status+'</td></tr>'+
+    '<tr><td>最大彎矩 M<sub>max</sub></td><td>'+f2(Mmax)+' kN·m/m</td></tr>'+
+    '<tr><td>M<sub>max</sub> 位置（自地表下）</td><td>'+f3(xMmax)+' m</td></tr>'+
+    '<tr><td>牆趾淨壓力 p(D)</td><td>'+f2(pToe)+' kPa</td></tr>'+
+    '<tr><td>地下水修正</td><td style="text-align:left;font-weight:500">'+waterText+'</td></tr>'+
+    '</table>';
+
+  var proc=[];
+  proc.push('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+  proc.push('  懸臂式地下連續牆入土深度設計計算過程');
+  proc.push('  Rankine 主動/被動土壓 + Net Pressure Method');
+  proc.push('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+  proc.push('');
+  proc.push('【輸入】');
+  proc.push('  H = '+f3(H)+' m');
+  proc.push('  γ = '+f3(gamma)+' kN/m³');
+  proc.push("  φ' = "+f3(phi)+'°');
+  proc.push('  q = '+f3(q)+' kPa');
+  proc.push('  FS_D = '+f3(fs));
+  proc.push('  水壓模式 = '+(waterMode==='simple'?'簡化水壓修正':'忽略開挖面以下水壓'));
+  if(waterMode==='simple'){
+    proc.push('  z_w = '+f3(zw)+' m, γ_w = '+f3(gammaW)+' kN/m³');
+  }
+  proc.push('');
+  proc.push('【一】土壓係數');
+  proc.push('  Ka = tan²(45 - φ/2) = tan²(45 - '+f3(phi/2)+') = '+f4(Ka));
+  proc.push('  Kp = tan²(45 + φ/2) = tan²(45 + '+f3(phi/2)+') = '+f4(Kp));
+  proc.push('  Δγ = (Kp - Ka) × γ = ('+f4(Kp)+' - '+f4(Ka)+') × '+f3(gamma)+' = '+f4(deltaGamma));
+  proc.push('');
+  proc.push('【二】開挖面以上主動壓力');
+  proc.push('  P_tri = 0.5 × Ka × γ × H²');
+  proc.push('        = 0.5 × '+f4(Ka)+' × '+f3(gamma)+' × '+f3(H)+'² = '+f4(Ptri)+' kN/m');
+  proc.push('  P_q   = Ka × q × H');
+  proc.push('        = '+f4(Ka)+' × '+f3(q)+' × '+f3(H)+' = '+f4(Psur)+' kN/m');
+  if(Pw>0){
+    proc.push('  h_w   = H - z_w = '+f3(H)+' - '+f3(zw)+' = '+f3(hw)+' m');
+    proc.push('  P_w   = 0.5 × γ_w × h_w² = 0.5 × '+f3(gammaW)+' × '+f3(hw)+'² = '+f4(Pw)+' kN/m');
+    proc.push('  M_w,top = P_w × h_w/3 = '+f4(Pw)+' × '+f3(hw/3)+' = '+f4(Mw)+' kN·m/m');
+  }else{
+    proc.push('  P_w   = 0 （未啟用簡化水壓或水位低於開挖面）');
+  }
+  proc.push('  P_top = P_tri + P_q + P_w = '+f4(Ptri)+' + '+f4(Psur)+' + '+f4(Pw)+' = '+f4(Ptop)+' kN/m');
+  proc.push('');
+  proc.push('【三】開挖面以下淨壓力分布');
+  proc.push('  p(z) = Ka[γ(H+z) + q] - Kpγz');
+  proc.push('       = Ka(γH + q) - (Kp - Ka)γz');
+  proc.push('       = p0 + mz');
+  proc.push('  p0 = Ka(γH + q) = '+f4(Ka)+' × ('+f3(gamma)+' × '+f3(H)+' + '+f3(q)+') = '+f4(p0)+' kPa');
+  proc.push('  m  = -(Kp - Ka)γ = -'+f4(deltaGamma)+' kPa/m');
+  proc.push('  零壓力深度 z0 = p0 / [(Kp - Ka)γ] = '+f4(p0)+' / '+f4(deltaGamma)+' = '+f4(zZero)+' m');
+  proc.push('');
+  proc.push('【四】對牆趾取矩，求理論最小入土深度 D】');
+  proc.push('  F(D) = P_tri(D + H/3) + P_q(D + H/2) + P_w(D + h_w/3)');
+  proc.push('       + ∫[0→D] (p0 + mz)(D-z) dz = 0');
+  proc.push('  整理為：F(D) = P_tri(D + H/3) + P_q(D + H/2) + P_w(D + h_w/3) + p0D²/2 + mD³/6');
+  proc.push('  以二分法疊代，初始區間 ['+f4(lo)+', '+f4(hi)+'] m');
+  proc.push('');
+  proc.push('  i        lo         hi        mid        F(mid) [kN·m/m]');
+  solved.iter.slice(0,18).forEach(function(it){
+    proc.push(
+      String(it.i).padEnd(3,' ')+' '+
+      f4(it.lo).padStart(9,' ')+' '+
+      f4(it.hi).padStart(9,' ')+' '+
+      f4(it.mid).padStart(9,' ')+' '+
+      f4(it.fmid).padStart(15,' ')
+    );
+  });
+  if(solved.iter.length>18){
+    proc.push('  ... 共 '+solved.iter.length+' 次疊代，以下列最終值收斂');
+  }
+  proc.push('');
+  proc.push('  D = '+f4(D)+' m');
+  proc.push('  D_design = D × FS_D = '+f4(D)+' × '+f3(fs)+' = '+f4(Ddesign)+' m');
+  proc.push('  牆趾淨壓力 p(D) = p0 + mD = '+f4(p0)+' + ('+f4(m)+') × '+f4(D)+' = '+f4(pToe)+' kPa');
+  proc.push('');
+  proc.push('【五】最大彎矩 Mmax】');
+  proc.push('  開挖面剪力 V_H = P_top = '+f4(VH)+' kN/m');
+  proc.push('  開挖面彎矩 M_H = P_tri×H/3 + P_q×H/2 + P_w×h_w/3');
+  proc.push('             = '+f4(Ptri)+'×'+f3(H/3)+' + '+f4(Psur)+'×'+f3(H/2)+' + '+f4(Pw)+'×'+f3(hw/3)+' = '+f4(MH)+' kN·m/m');
+  proc.push('  嵌入段剪力：V(z) = V_H + p0z + mz²/2');
+  proc.push('  令 V(z)=0，得最大彎矩位置 z = '+f4(zV)+' m（自開挖面下）');
+  proc.push('  Mmax = M_H + V_Hz + p0z²/2 + mz³/6');
+  proc.push('       = '+f4(MH)+' + '+f4(VH)+'×'+f4(zV)+' + '+f4(p0)+'×'+f4(zV)+'²/2 + ('+f4(m)+')×'+f4(zV)+'³/6');
+  proc.push('       = '+f4(Mmax)+' kN·m/m');
+  proc.push('  最大彎矩位置 = H + z = '+f4(H)+' + '+f4(zV)+' = '+f4(xMmax)+' m（自地表下）');
+  proc.push('');
+  proc.push('【六】設計備註】');
+  proc.push('  1. 本工具採相同土層、c = 0、水平地表、忽略壁摩擦之 Rankine 土壓理論。');
+  proc.push('  2. 開挖面以下未另計淨水壓，若保留側與開挖側水位不同，正式設計應另行檢討。');
+  proc.push('  3. Mmax 僅供牆厚與配筋初估，結構設計仍應配合實際配筋、施工階段與變形分析。');
+  proc.push('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+
+  document.getElementById('dwd-proc-text').textContent=proc.join('\n');
+  document.getElementById('dwd-proc').style.display='';
+  if(window.innerWidth<768){
+    var btn=document.getElementById('mobTab-dwd-r');
+    if(btn) switchMobTab('dwd-r',btn);
+  }
+}
+
+toggleWaterFields();
+calcDWD();
+</script>
+<script>
+window.jrhDocMeta={
+  doc:'懸臂式地下連續牆(擋土牆)入土深度設計計算書',
+  codes:[
+    'Rankine (1857) Earth Pressure Theory',
+    'Net Pressure Method for Cantilever Excavation Support',
+    '一般擋土與連續壁初步設計慣例（單層無支撐懸臂開挖）'
+  ],
+  notes:[
+    '本工具適用於單層無支撐懸臂式開挖之初步設計，採 Rankine 主動/被動土壓與淨壓力法估算最小入土深度。',
+    '假設地表水平、土層均質、c=0、忽略壁摩擦，且保留側與開挖側使用相同有效摩擦角與單位重。',
+    '設計入土深度採 D_design = D × FS_D；FS_D 建議常用 1.2～1.5，仍應依專案風險、施工容許變形與規範要求調整。',
+    '地下水僅提供開挖面以上保留側簡化水壓修正；若涉及降排水、滲流、砂湧、管湧或開挖面以下水位差，應另行進行水理與穩定分析。',
+    '本工具輸出之 Mmax 僅供牆厚與配筋初估，正式設計仍須做牆體結構驗算、施工階段檢討與專業技師複核。'
+  ]
+};
+</script>
+</body>
+</html>
