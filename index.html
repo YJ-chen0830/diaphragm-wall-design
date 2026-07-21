@@ -397,6 +397,7 @@ function calcDWD(){
     var btn=document.getElementById('mobTab-dwd-r');
     if(btn) switchMobTab('dwd-r',btn);
   }
+  if(window.JRH && JRH.saveOutput) JRH.saveOutput({H:H, gamma:gamma, phi:phi, q:q});
 }
 
 toggleWaterFields();
